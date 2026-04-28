@@ -1,3 +1,4 @@
+function isMobileReadmeNoAutoOpen(){return window.matchMedia && window.matchMedia("(max-width: 768px)").matches;}
 const items = {
   work: folder('Work', 'C:\\Portfolio\\Work', [childFile('work-readme','README.note'), childFile('workportfolio','portfolio.html'), childFile('current-waylay-website','waylay.html'), childFile('waylay-waybackmachine','waybackmachine.html')]),
   workportfolio: { type:'external', title:'portfolio.html', address:'https://sites.google.com/view/elooi-de-buck', url:'https://sites.google.com/view/elooi-de-buck' },
@@ -366,10 +367,10 @@ function openItem(id){
   if(data.type==='paint')initPaintApp(clone);
   if(data.type==='book')initBookApp(clone, data.bookKey);
   if(id==='art' && !isMobileReadmeMode()){
-    window.setTimeout(()=>openItem('art-readme'), 250);
+    window.setTimeout(() => { if (!isMobileReadmeNoAutoOpen()) openItem("art-readme"); }, 250);
   }
   if(id==='work' && !isMobileReadmeMode()){
-    window.setTimeout(()=>openItem('work-readme'), 250);
+    window.setTimeout(() => { if (!isMobileReadmeNoAutoOpen()) openItem("work-readme"); }, 250);
   }
 }
 function openExternalFile(data){
@@ -817,4 +818,45 @@ document.querySelectorAll('[data-name="README.note"]').forEach(el=>{
       return originalOpenArtReadme.apply(this, arguments);
     }
   };
+})();
+
+
+/* README_MOBILE_AUTOOPEN_INTERCEPTOR_V2
+   Prevent README files from auto-opening on mobile, while allowing user taps/clicks. */
+(function(){
+  if (window.__readmeMobileInterceptorInstalled) return;
+  window.__readmeMobileInterceptorInstalled = true;
+
+  let userGestureUntil = 0;
+  ["pointerdown","touchstart","mousedown","keydown","click","dblclick"].forEach(evt => {
+    document.addEventListener(evt, () => { userGestureUntil = Date.now() + 900; }, true);
+  });
+
+  function isMobile(){
+    return window.matchMedia && window.matchMedia("(max-width: 768px)").matches;
+  }
+
+  function isReadmeId(id){
+    return String(id || "").toLowerCase().includes("readme");
+  }
+
+  function install(){
+    if (typeof window.openItem !== "function" || window.openItem.__readmeMobileWrapped) return false;
+    const originalOpenItem = window.openItem;
+    window.openItem = function(id){
+      const userInitiated = Date.now() < userGestureUntil;
+      if (isMobile() && isReadmeId(id) && !userInitiated) {
+        return null;
+      }
+      return originalOpenItem.apply(this, arguments);
+    };
+    window.openItem.__readmeMobileWrapped = true;
+    return true;
+  }
+
+  install();
+  const interval = setInterval(() => {
+    if (install()) clearInterval(interval);
+  }, 50);
+  setTimeout(() => clearInterval(interval), 3000);
 })();

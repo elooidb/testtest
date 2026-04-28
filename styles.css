@@ -653,3 +653,22 @@ background:linear-gradient(#245edb,#0a246a);padding:0 8px;box-sizing:border-box;
     animation: readmeSoftPulse 1.4s ease-in-out infinite !important;
   }
 }
+
+
+/* Robust mobile README pulse */
+@keyframes readmeSoftPulseFixed {
+  0%, 100% { opacity: 1; filter: brightness(1); transform: scale(1); }
+  50% { opacity: .75; filter: brightness(1.35); transform: scale(1.035); }
+}
+@media (max-width: 768px) {
+  [data-name="README.note"]:not(.readme-seen),
+  .readme-important:not(.readme-seen),
+  .desktop-icon .label,
+  .folder-item .label {
+    /* label selectors are intentionally left visually unaffected unless parent has class */
+  }
+  [data-name="README.note"]:not(.readme-seen),
+  .readme-important:not(.readme-seen) {
+    animation: readmeSoftPulseFixed 1.4s ease-in-out infinite !important;
+  }
+}
