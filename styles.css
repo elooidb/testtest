@@ -230,3 +230,426 @@ html, body { max-width: 100%; overflow-x: hidden; }
   .window-content { max-height: calc(100dvh - 88px) !important; }
   #paint-canvas { height: 32dvh !important; }
 }
+
+
+/* --- External workportfolio.html launcher + replaceable HTML icon --- */
+:root{ --icon-html:url('assets/icons/html.svg'); }
+.html-art{background-image:var(--icon-html)}
+.mini-html{background:#fff;border:1px solid #777;box-shadow:inset 0 0 0 3px #eaf2ff;position:relative}
+.mini-html::after{content:'<>';font:bold 8px Tahoma,sans-serif;color:#1f5fd6;position:absolute;left:2px;top:2px}
+
+.external-opening-dialog{
+  position:fixed;
+  left:50%;
+  top:50%;
+  transform:translate(-50%,-45%) scale(.96);
+  width:min(330px,calc(100vw - 28px));
+  background:#ece9d8;
+  border:1px solid #003c74;
+  box-shadow:3px 3px 12px rgba(0,0,0,.35);
+  z-index:999998;
+  opacity:0;
+  pointer-events:none;
+  transition:opacity .12s ease, transform .12s ease;
+  font:12px Tahoma, sans-serif;
+}
+.external-opening-dialog.visible{
+  opacity:1;
+  transform:translate(-50%,-50%) scale(1);
+}
+.external-opening-title{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  padding:5px 7px;
+  color:white;
+  font-weight:bold;
+  background:linear-gradient(90deg,#0a246a,#3a6ea5);
+}
+.external-opening-body{
+  display:grid;
+  gap:7px;
+  padding:14px;
+}
+.external-opening-body span{color:#333}
+.opening-progress{
+  height:12px;
+  padding:2px;
+  border:1px inset #fff;
+  background:white;
+  overflow:hidden;
+}
+.opening-progress span{
+  display:block;
+  width:36%;
+  height:100%;
+  background:linear-gradient(90deg,#1d63d6,#6aa2ff);
+  animation:opening-progress 450ms ease-in-out forwards;
+}
+@keyframes opening-progress{
+  from{transform:translateX(-105%)}
+  to{transform:translateX(285%)}
+}
+
+
+/* XP-style icon tooltips */
+.xp-tooltip {
+  position: fixed;
+  z-index: 1000001;
+  max-width: 260px;
+  padding: 6px 8px;
+  background: #ffffe1;
+  color: #000;
+  border: 1px solid #000;
+  box-shadow: 2px 2px 0 rgba(0,0,0,0.25);
+  font: 12px Tahoma, Arial, sans-serif;
+  line-height: 1.35;
+  pointer-events: none;
+  display: none;
+  white-space: normal;
+}
+
+/* XP-style Properties dialog */
+.properties-dialog {
+  position: fixed;
+  width: min(360px, calc(100vw - 24px));
+  max-height: calc(100vh - 24px);
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background: #ece9d8;
+  border: 1px solid #003c74;
+  box-shadow: 4px 4px 12px rgba(0,0,0,.45);
+  z-index: 1000000;
+  font-family: Tahoma, Arial, sans-serif;
+  color: #000;
+}
+
+.properties-dialog .properties-titlebar {
+  background: linear-gradient(90deg, #0054e3, #3f8cff);
+  color: #fff;
+  font-weight: bold;
+  font-size: 12px;
+  padding: 4px 6px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  user-select: none;
+}
+
+.properties-dialog .properties-close {
+  width: 20px;
+  height: 20px;
+  line-height: 16px;
+  border: 1px solid #fff;
+  background: linear-gradient(#f6a58f, #d33b1f);
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.properties-dialog .properties-body {
+  padding: 12px;
+  font-size: 12px;
+}
+
+.properties-dialog .properties-header {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #aca899;
+  margin-bottom: 10px;
+}
+
+.properties-dialog .properties-header img {
+  width: 42px;
+  height: 42px;
+  image-rendering: pixelated;
+}
+
+.properties-dialog .properties-name {
+  font-weight: bold;
+  font-size: 14px;
+  word-break: break-word;
+}
+
+.properties-dialog .properties-row {
+  display: grid;
+  grid-template-columns: 86px 1fr;
+  gap: 8px;
+  margin: 7px 0;
+}
+
+.properties-dialog .properties-label {
+  color: #333;
+}
+
+.properties-dialog .properties-actions {
+  margin-top: 14px;
+  padding-top: 10px;
+  border-top: 1px solid #aca899;
+  text-align: right;
+}
+
+.properties-dialog button.properties-ok {
+  min-width: 76px;
+  padding: 3px 12px;
+  border: 1px solid #003c74;
+  background: linear-gradient(#fff, #dcd8c8);
+  font: 12px Tahoma, Arial, sans-serif;
+  cursor: pointer;
+}
+
+.properties-dialog button.properties-ok:active {
+  background: linear-gradient(#dcd8c8, #fff);
+}
+
+@media (max-width: 640px) {
+  .xp-tooltip {
+    display: none !important;
+  }
+  .properties-dialog {
+    width: calc(100vw - 18px);
+  }
+}
+
+body{font-family:Tahoma;}
+.window{border:2px solid #245edb;box-shadow:4px 4px #000}
+.title-bar{background:linear-gradient(#0a246a,#3a6ea5);color:#fff}
+.desktop-icon.selected{background:rgba(0,0,255,0.3)}
+.taskbar-item{padding:2px 6px;border:1px solid #888}
+.taskbar-item.active{background:#0a246a;color:#fff}
+.thumbnail-view img{width:80px;height:60px}
+
+#taskbar{position:fixed;bottom:0;left:0;width:100%;height:40px;
+display:flex;justify-content:space-between;align-items:center;
+background:linear-gradient(#245edb,#0a246a);padding:0 8px;box-sizing:border-box;}
+#taskbar-left{display:flex;gap:6px;}
+#taskbar-right{display:flex;align-items:center;}
+#soundToggle{width:20px;height:20px;cursor:pointer;}
+#soundToggle:hover{background:rgba(255,255,255,0.2);}
+
+
+/* Sound tray fixed next to date/time */
+#taskbar-right,
+.taskbar-right,
+.system-tray,
+.tray,
+#xp-system-tray {
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+}
+
+#xp-system-tray {
+  position: fixed !important;
+  right: 8px !important;
+  bottom: 3px !important;
+  height: 30px !important;
+  min-width: 58px !important;
+  z-index: 1000002 !important;
+  padding: 3px 8px !important;
+  box-sizing: border-box !important;
+  background: linear-gradient(#1c8ff5, #0b63d1) !important;
+  border-left: 1px solid rgba(255,255,255,.45) !important;
+  color: #fff !important;
+  font: 11px Tahoma, Arial, sans-serif !important;
+}
+
+#soundToggle.tray-icon,
+#soundToggle {
+  display: inline-block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  position: relative !important;
+  width: 22px !important;
+  height: 22px !important;
+  min-width: 22px !important;
+  min-height: 22px !important;
+  padding: 2px !important;
+  margin: 0 4px 0 0 !important;
+  cursor: pointer !important;
+  object-fit: contain !important;
+  border-radius: 2px !important;
+  z-index: 1000003 !important;
+}
+
+#soundToggle:hover {
+  background: rgba(255,255,255,.22) !important;
+  outline: 1px solid rgba(255,255,255,.35) !important;
+}
+
+#xp-clock {
+  color: #fff !important;
+  white-space: nowrap !important;
+  line-height: 22px !important;
+}
+
+
+/* Desktop-level Art/Tattoo split icons */
+.custom-art-folder{background-image:url('assets/icons/folder.svg') !important;background-size:contain !important;background-repeat:no-repeat !important;background-position:center !important;}
+.custom-tattoo-folder{background-image:url('assets/icons/folder.svg') !important;background-size:contain !important;background-repeat:no-repeat !important;background-position:center !important;}
+.exe-art{background-image:url('assets/icons/exe.svg') !important;background-size:contain !important;background-repeat:no-repeat !important;background-position:center !important;}
+@media (max-width:720px){}
+
+/* Mobile: keep README files blinking instead of auto-opening */
+50%, 100% { filter: brightness(1.55); background: rgba(255,255,0,.25); }
+}
+
+@media (max-width: 720px) {
+  .readme-important,
+  .folder-item[data-name="README.note"] {
+    animation: readmeBlink 1s steps(2, start) infinite;
+    border-color: rgba(255,255,0,.8) !important;
+  }
+}
+
+
+/* ===== Stable two-column desktop icon layout ===== */
+.desktop-icons {
+  width: 250px;
+  height: calc(100vh - 86px);
+}
+.desktop-icons > .desktop-icon {
+  position: absolute;
+  transition: left .08s ease-out, top .08s ease-out;
+}
+.desktop-icons > .desktop-icon.dragging {
+  transition: none;
+  z-index: 9999;
+}
+
+
+
+/* ===== Freeform desktop icon placement ===== */
+.desktop-icon {
+  cursor: default;
+  touch-action: none;
+}
+
+.desktop-icon.dragging {
+  cursor: grabbing;
+  opacity: .9;
+}
+
+.desktop-icon.snap-preview {
+  transition: none !important;
+}
+
+
+/* ===== Fixed free desktop placement ===== */
+.desktop-icons{
+  width:100% !important;
+  height:calc(100vh - 86px) !important;
+  position:relative !important;
+  z-index:2 !important;
+}
+.desktop-icons > .desktop-icon{
+  position:absolute !important;
+  transition:none !important;
+}
+.desktop-icons > .desktop-icon.dragging{
+  cursor:grabbing !important;
+  opacity:.88 !important;
+  z-index:9999 !important;
+}
+
+
+/* Folder contents: icons only, no thumbnails */
+.folder-item img,
+.file-item img,
+.folder-view img {
+  width: 48px !important;
+  height: 48px !important;
+  max-width: 48px !important;
+  max-height: 48px !important;
+  object-fit: contain !important;
+  border: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.folder-view.thumbnail-view .folder-item img,
+.folder-view.thumbnail-view .file-item img {
+  width: 48px !important;
+  height: 48px !important;
+  max-width: 48px !important;
+  max-height: 48px !important;
+  object-fit: contain !important;
+  border: none !important;
+  background: transparent !important;
+}
+
+
+/* Final fix: folder windows use icons only */
+.window-content .icon-only-item {
+  width: 96px !important;
+  min-height: 92px !important;
+  padding: 6px !important;
+}
+
+.window-content .icon-only-item .icon-art {
+  width: 42px !important;
+  height: 36px !important;
+  margin: 0 auto 6px !important;
+  display: block !important;
+}
+
+.window-content .icon-only-item .thumbnail {
+  display: none !important;
+}
+
+.window-content .thumbnail {
+  display: none !important;
+}
+
+.window-content .thumbnail-icon > .icon-art {
+  width: 42px !important;
+  height: 36px !important;
+  margin: 0 auto 6px !important;
+}
+
+
+/* Mobile README blinking fix */
+50%, 100% { opacity: 0.4; }
+}
+
+
+
+
+/* Mobile README soft pulse; stops after first tap/open */
+@keyframes readmeSoftPulse {
+  0%, 100% {
+    opacity: 1;
+    filter: brightness(1);
+    transform: scale(1);
+  }
+  50% {
+    opacity: .78;
+    filter: brightness(1.35);
+    transform: scale(1.035);
+  }
+}
+
+@media (max-width: 768px) {
+  .readme-important:not(.readme-seen) {
+    animation: readmeSoftPulse 1.4s ease-in-out infinite;
+  }
+
+  .readme-important.readme-seen {
+    animation: none !important;
+    opacity: 1 !important;
+    filter: none !important;
+    transform: none !important;
+  }
+}
+
+
+/* Final mobile README behavior fix: pulse only, no auto-open */
+@media (max-width: 768px) {
+  .readme-important:not(.readme-seen),
+  [data-name="README.note"]:not(.readme-seen) {
+    animation: readmeSoftPulse 1.4s ease-in-out infinite !important;
+  }
+}

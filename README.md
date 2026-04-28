@@ -82,3 +82,117 @@ The `Missing Skills` recycle bin opens as a full-screen blue-screen error. The B
 
 ## Missing Skills blue screen
 The `Missing Skills` desktop icon is intentionally not opened through the window system. It triggers a full-page BSOD overlay in `script.js` via `openBsod()` and returns with `closeBsod()`.
+
+## Latest update
+
+- Replaced the desktop Work folder with `workportfolio.html`.
+- `workportfolio.html` opens `https://sites.google.com/view/elooi-de-buck` in a new browser tab by default.
+- Added a small Windows XP-style “Opening file...” dialog before the new tab launches.
+- Removed the old iframe/Internet Explorer embed code because Google Sites blocks embedded frames.
+- Added `assets/icons/html.svg`; replace this file to change the desktop HTML-file icon.
+- Replaced placeholder name text with **Elooi De Buck**.
+
+
+## Work folder shortcuts
+
+The desktop `Work` item is a folder again. It contains:
+
+- `README.note` — automatically opens when the Work folder is opened.
+- `workportfolio.html` — opens `https://sites.google.com/view/elooi-de-buck` in a new tab.
+- `current_waylay_website.html` — opens `https://www.waylay.io/` in a new tab.
+- `waylay_waybackmachine.html` — opens the Waylay Wayback Machine archive in a new tab.
+
+The matching placeholder files live in `assets/work/` so you can replace or edit them later.
+
+
+## Custom icon files
+
+The file-type icons live in `assets/icons/` and are designed in a Windows XP-inspired pixel style.
+
+- `html.svg` — generic HTML document
+- `note.svg` — README / note document
+- `link.svg` — generic web shortcut
+- `browser.svg` — current website / browser shortcut
+- `archive.svg` — Wayback Machine / archive shortcut
+
+To replace any icon, keep the same filename and swap the SVG or image file.
+
+
+## Tooltips and Properties dialogs
+
+Hover over desktop icons or files to see an XP-style tooltip.
+
+Right-click any desktop icon or file/folder item to open a Windows XP-inspired Properties dialog.
+
+You can edit descriptions and metadata in `script.js` under `window.XP_ITEM_METADATA`.
+
+
+## Sound tray fix
+
+The sound toggle is now inserted directly next to the date/time tray area. If the original taskbar clock cannot be detected, the site creates a small fallback tray at the bottom-right with the sound icon and a clock.
+
+
+## Art / Tattoo desktop split
+
+The visible desktop icon `Art & Tattoo` has been replaced with two desktop folders: `Art` and `Tattoo`. Opening `Art` auto-opens `README.note`. The three Art `.exe` files open book-style artwork browsers. Replace placeholder artwork files in `assets/art/` and edit `const artBooks` in `script.js` to point to PNG/JPG/SVG/GIF or MP4 files. For MP4 pages, set `type` to `video`.
+
+
+## Minimal artwork book viewer update
+
+The Art `.exe` files now open a simplified two-page book viewer.
+
+- First spread: chapter legend with clickable chapter links
+- Following spreads: two artwork pages at a time
+- Previous / Next buttons browse the whole book
+
+On mobile, the Art `README.note` no longer auto-opens. Instead, it blinks inside the folder so users can still tell it is important.
+
+
+## Rollback note
+
+This version rolls back to the state before the uploaded drawings were integrated.
+
+Folder icons have also been normalized so all folders use:
+
+`assets/icons/folder.svg`
+
+
+## Freeform desktop icons
+
+Desktop icons still start in the intended two-column layout, but users can now drag them anywhere on the desktop.
+
+Icon positions are saved in `localStorage`, so the layout persists in the same browser.
+
+
+## Art viewer functionality removed
+
+This package keeps the Art folder and its placeholder files, but removes the old book/minimal art viewer functionality and related media assets.
+
+Current Art folder files:
+
+- `README.note`
+- `observational.exe`
+- `experimental.exe`
+- `diary_DONOTREADTHIS.exe`
+
+The `.exe` files are placeholders for a future Art system.
+
+
+## Folder icons only
+
+Folder windows now display file-type icons only. Thumbnail/preview images inside folders have been removed or overridden.
+
+
+## Folder icon-only fix
+
+The folder item renderer `createWindowItem()` now outputs only the actual file/folder icon and label. It no longer generates thumbnail preview markup.
+
+
+## Mobile README pulse update
+
+On mobile, README files now use a softer pulse animation instead of a hard blink. The pulse stops after the README is tapped/opened once, with state saved in localStorage.
+
+
+## Mobile README auto-open fix
+
+The core folder auto-open logic now checks `isMobileReadmeMode()` before opening Work or Art README notes. README items also get `data-name="README.note"` and `readme-important` directly from `createWindowItem()`, so the mobile pulse consistently applies.
